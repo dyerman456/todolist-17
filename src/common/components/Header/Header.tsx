@@ -1,7 +1,6 @@
 import { changeThemeModeAC, selectAppStatus, selectThemeMode } from "@/app/app-slice.ts"
 import { useAppDispatch, useAppSelector } from "@/common/hooks"
 import { containerSx } from "@/common/styles"
-import { getTheme } from "@/common/theme"
 import { NavButton } from "@/common/components/NavButton/NavButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import AppBar from "@mui/material/AppBar"
@@ -11,6 +10,8 @@ import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
 import LinearProgress from "@mui/material/LinearProgress"
 import { logoutTC, selectIsLoggedIn } from "@/features/auth/model/auth-slice.ts"
+import { NavLink } from "react-router"
+import { Path } from "@/common/routing"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -18,8 +19,6 @@ export const Header = () => {
 
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
-
-  const theme = getTheme(themeMode)
 
   const changeMode = () => {
     dispatch(changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" }))
@@ -38,7 +37,12 @@ export const Header = () => {
           </IconButton>
           <div>
             {isLoggedIn && <NavButton onClick={logoutHandler}>Logout</NavButton>}
-            <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
+            <NavLink style={{ color: "white", paddingRight: "20px" }} to={Path.Main}>
+              Main
+            </NavLink>
+            <NavLink style={{ color: "white" }} to={Path.Faq}>
+              Faq
+            </NavLink>
             <Switch color={"default"} onChange={changeMode} />
           </div>
         </Container>
